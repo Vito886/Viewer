@@ -1,0 +1,43 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Viewer.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Viewer.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Viewer">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+	<Window.Styles>
+		<StyleInclude Source="/Styles/Style.axaml"/>
+	</Window.Styles>
+
+	<Grid RowDefinitions="*" ColumnDefinitions="auto, *">
+		<TreeView Name="DirectoryTree" SelectionChanged="ChangedSelectedNode"  SelectionMode="Single" Items="{Binding Items}" Grid.Column="0">
+			<TreeView.ItemTemplate>
+				<TreeDataTemplate ItemsSource="{Binding FilesAndFolders}">
+					<ContentControl  TemplateApplied="ClickForLoadNodes">
+						<TextBlock Text="{Binding NodeName}"/>
+					</ContentControl>
+				</TreeDataTemplate>
+			</TreeView.ItemTemplate>
+		</TreeView>
+
+		<Grid Name="ImageViewPlace" Grid.Column="1" RowDefinitions="*, 50" ColumnDefinitions="*, *" >
+			<Carousel Name="Slider" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"  Items="{Binding DirectoryImages}">
+				<Carousel.ItemTemplate>
+					<DataTemplate>
+						<Image Classes="img" Source="{Binding Img}" ToolTip.Tip="{Binding Path}" />
+					</DataTemplate>
+				</Carousel.ItemTemplate>
+			</Carousel>
+			<Button Name="Back" Classes="btn" Grid.Row="1" Grid.Column="0" Content="Back"/>
+			<Button Name="Next" Classes="btn" Grid.Row="1" Grid.Column="1" Content="Next"/>
+		</Grid>
+	</Grid>
+
+</Window>
